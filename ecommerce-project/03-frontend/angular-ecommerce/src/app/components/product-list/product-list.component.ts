@@ -14,6 +14,8 @@ export class ProductListComponent implements OnInit, OnDestroy {
   products: Product[];
   productListSub: Subscription;
   currentCategoryId: number;
+  currentCategoryName: string;
+  searchMode: boolean;
 
   constructor(
     private productService: ProductService,
@@ -22,7 +24,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(() => {
-       this.listProducts();
+      this.listProducts();
     });
   }
 
@@ -33,16 +35,27 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   listProducts() {
+
+    this.searchMode = this.route.snapshot.paramMap.has('keyword');
+    if (this.searchMode) {
+      this.handleSearchProducts();
+    } else {
+      this.handleListProducts();
+    }
+  }
+
+  handleListProducts() {
     //Check if "id" parameter is available
     const hasCategoryId: boolean = this.route.snapshot.paramMap.has('id');
 
     if (hasCategoryId) {
       //get the "id" param string. Convert string to a number using the "+" symbol
       this.currentCategoryId = +this.route.snapshot.paramMap.get('id');
+      this.currentCategoryName = this.route.snapshot.paramMap.get('name');
     } else {
       // category id not available ... default to category id 1
       this.currentCategoryId = 1;
-
+      this.currentCategoryName = 'Books'
     }
 
     //get the products with category id 
@@ -53,4 +66,14 @@ export class ProductListComponent implements OnInit, OnDestroy {
     );
   }
 
+  handleSearchProducts() {
+    const theKeyword = this.route.snapshot.paramMap.get("keyword");
+
+    //now search for the products using keyword
+    this.productService.searchProducts(theKeyword).subscribe(
+      data => {
+        this.products = data;
+      }
+    )
+  }
 }

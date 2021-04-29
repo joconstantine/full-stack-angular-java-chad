@@ -14,7 +14,7 @@
 	<name>spring-boot-ecommerce</name>
 	<description>Spring Boot Ecommerce Project</description>
 	<properties>
-		<java.version>16</java.version>
+		<java.version>8</java.version>
 		<maven.compiler.version>3.8.1</maven.compiler.version>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
@@ -43,6 +43,10 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
 		</dependency>
 	</dependencies>
 
