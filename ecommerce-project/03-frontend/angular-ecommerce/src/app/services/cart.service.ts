@@ -87,4 +87,10 @@ export class CartService {
       this.cartItems.splice(itemIndex, 1);
     }
   }
+
+  resetCart() {
+    this.cartItems = [];
+    this.totalPrice.next(0);
+    this.totalQuantity.next(0);
+  }
 }

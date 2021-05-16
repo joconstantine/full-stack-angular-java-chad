@@ -28,7 +28,7 @@
                             <div class="input-space">
                                 <input formControlName="lastName" type="text">
                                 <div *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)" class="alert alert-danger mt-1">
-                                    <div *ngIf="lastName.errors.required || firstName.errors.notOnlyWhitespace">
+                                    <div *ngIf="lastName.errors.required || lastName.errors.notOnlyWhitespace">
                                         Last Name is required.
                                     </div>
                                     <div *ngIf="lastName.errors.minlength">
@@ -326,7 +326,7 @@
                             <div class="input-space">
                                 <div class="input-space">
                                     <select formControlName="expirationMonth">
-                                        <option *ngFor="let month of creditCardMonths">
+                                        <option *ngFor="let month of creditCardMonths" [ngValue]="month">
                                             {{ month }}
                                         </option>
                                     </select>
@@ -340,7 +340,7 @@
                             <div class="input-space">
                                 <div class="input-space">
                                     <select formControlName="expirationYear" (change)="handleMonthsAndYears()">
-                                        <option *ngFor="let year of creditCardYears">
+                                        <option *ngFor="let year of creditCardYears" [ngValue]="year">
                                             {{ year }}
                                         </option>
                                     </select>
