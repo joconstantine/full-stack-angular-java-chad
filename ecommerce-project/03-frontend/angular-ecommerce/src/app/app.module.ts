@@ -20,12 +20,14 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './components/login/login.component';
 import { LoginStatusComponent } from './components/login-status/login-status.component';
 
-import { OKTA_CONFIG, OktaAuthModule, OktaCallbackComponent, OktaAuthService } from '@okta/okta-angular';
+import { OKTA_CONFIG, OktaAuthModule, OktaCallbackComponent, OktaAuthGuard } from '@okta/okta-angular';
 
 import myAppConfig from './config/my-app-config';
+import { MembersPageComponent } from './components/members-page/members-page.component';
+import { OrderHistoryComponent } from './components/order-history/order-history.component';
 
 const oktaConfig = Object.assign({
-  onAuthRequired: (injector) => {
+  onAuthRequired: (oktaAuth, injector) => {
     const router: Router = injector.get(Router);
 
     // Redirect the user to your custom login page
@@ -34,6 +36,9 @@ const oktaConfig = Object.assign({
 }, myAppConfig.oidc);
 
 const routes: Routes = [
+  { path: 'members', component: MembersPageComponent, canActivate: [OktaAuthGuard] },
+  { path: 'order-history', component: OrderHistoryComponent, canActivate: [OktaAuthGuard] },
+
   { path: 'login/callback', component: OktaCallbackComponent },
   { path: 'login', component: LoginComponent },
 
@@ -44,6 +49,7 @@ const routes: Routes = [
   { path: 'products', component: ProductListComponent },
   { path: 'search/:keyword', component: ProductListComponent },
   { path: 'products/:id', component: ProductDetailsComponent },
+
   { path: '', redirectTo: '/products', pathMatch: 'full' },
   { path: '**', redirectTo: '/products', pathMatch: 'full' },
 ]
@@ -59,6 +65,8 @@ const routes: Routes = [
     CheckoutComponent,
     LoginComponent,
     LoginStatusComponent,
+    MembersPageComponent,
+    OrderHistoryComponent,
   ],
   imports: [
     RouterModule.forRoot(routes),
