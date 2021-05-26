@@ -19,6 +19,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .oauth2ResourceServer()
                 .jwt();
 
+        // disable CSRF
+        http.csrf().ignoringAntMatchers("/api/**");
+
         // add CORS filters
         http.cors();
 
